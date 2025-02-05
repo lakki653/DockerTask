@@ -1,0 +1,17 @@
+# Stage 1: Build stage
+FROM hitaishi0622/ping:latest AS build
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the source code to the container
+COPY . /app
+
+# Stage 2: Runtime stage
+FROM nginx
+
+# Expose port 80
+EXPOSE 80
+
+# Copy the content from the build stage to the Nginx HTML directory
+COPY --from=build /app /usr/share/nginx/html
